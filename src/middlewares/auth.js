@@ -1,4 +1,4 @@
-const { verify } = require("../utils/jwt");
+const { verify } = require('../utils/jwt');
 
 const authMiddleware = (req, res, next) => {
   let auth = {};
@@ -11,7 +11,7 @@ const authMiddleware = (req, res, next) => {
     try {
       auth = verify(req.query.authToken);
     } catch (err) {
-      console.log("query.authToken invalid", req.query.authToken);
+      console.log('query.authToken invalid', req.query.authToken);
     }
   }
 

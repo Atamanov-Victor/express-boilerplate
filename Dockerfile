@@ -1,18 +1,20 @@
 FROM node:16
 
-RUN mkdir -p /usr/src/node-app && chown -R node:node /usr/src/node-app
+WORKDIR /app
 
-WORKDIR /usr/src/node-app
+COPY package*.json /app/
+COPY yarn.lock /app/
 
-COPY package.json yarn.lock ./
+RUN yarn
 RUN npm i -g pm2
+
+COPY . /app
+RUN chown -R node:node .
 
 USER node
 
-RUN yarn install
+ENV PORT 3000
 
-COPY --chown=node:node . .
+CMD yarn run start
 
-CMD node src/app.js
 
-EXPOSE 3000

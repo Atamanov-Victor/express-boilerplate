@@ -1,38 +1,24 @@
 version: '3'
-
 services:
-  minecraft-back-api:
-    build: .
+  express-app:
+    container_name: express-app
     restart: always
-    container_name: minecraft-back
+    build: .
     links:
-      - minecraft-back-db:minecraft-back-db
-    ports:
-      - '3019:3000'
+      - mongo:mongo
     depends_on:
-      - minecraft-back-db
+      - mongo
     volumes:
-      - .:/usr/src/node-app
-      - /node_modules
-    networks:
-      - node-network
-
-  minecraft-back-db:
-    image: mongo
-    container_name: minecraft-back-db
+      - .:/app
+      - ./logs:/root/.npm/_logs
     ports:
-      - 27017:27017
+      - 3000:3000
+  mongo:
+    container_name: mongo-boilerplate
+    image: mongo
+    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_PASSWORD: fa12fnmar21!pq
     volumes:
-      - dbdata:/data/db
-    networks:
-      - node-network
-
-volumes:
-  dbdata:
-
-networks:
-  node-network:
-    driver: bridge
+      - ./mongo/data:/data/db

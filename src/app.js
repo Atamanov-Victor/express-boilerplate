@@ -3,14 +3,8 @@ require('dotenv').config();
 // START EXPRESS CONFIGURATION
 const port = process.env.PORT || 3000;
 const express = require('express');
-const swaggerUi = require('swagger-ui-express');
 const cors = require('cors');
-// const fileUpload = require('express-fileupload');
 const authMiddleware = require('./middlewares/auth');
-const { MAX_FILE_UPLOAD_SIZE } = require('./config/constants');
-// const YAML = require('yamljs');
-// const https = require("https")
-// const fs = require("fs")
 
 const app = express();
 app.use(express.json());
@@ -27,9 +21,10 @@ app.use(authMiddleware);
 // END EXPRESS CONFIGURATION
 
 // START ROUTES
-const { authRouter } = require('./routes');
+const { authRouter, apiRouter } = require('./routes');
 
-app.use('/v1/auth', authRouter);
+app.use('/auth', authRouter);
+app.use('/api', apiRouter);
 
 // const swaggerDocument = YAML.load(__dirname + '/apiDocs/v1-swagger.yaml');
 //
